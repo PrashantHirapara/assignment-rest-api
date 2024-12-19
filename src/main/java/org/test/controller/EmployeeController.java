@@ -68,7 +68,7 @@ public class EmployeeController {
     @GetMapping("/{empId}")
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable String empId) {
         try {
-            Employee employee = employeeService.getEmployeeById(empId);  // This should call the service to fetch employee by ID
+            Employee employee = employeeService.getEmployeeById(empId);
             EmployeeDTO employeeDTO = new EmployeeDTO(
                     employee.getId(),
                     employee.getName(),
@@ -78,7 +78,7 @@ public class EmployeeController {
             );
             return new ResponseEntity<>(employeeDTO, HttpStatus.OK);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // If employee not found, return 404
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
