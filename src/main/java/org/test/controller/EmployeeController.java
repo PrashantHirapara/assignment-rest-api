@@ -1,6 +1,8 @@
 package org.test.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +42,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/department/{deptId}")
-    public void addEmployee(@PathVariable String deptId, @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<String> addEmployee(@PathVariable String deptId, @RequestBody EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
         employee.setId(employeeDTO.getId());
         employee.setName(employeeDTO.getName());
@@ -48,11 +50,36 @@ public class EmployeeController {
         employee.setPosition(employeeDTO.getPosition());
         employee.setSalary(employeeDTO.getSalary());
         employeeService.addEmployeeToDepartment(employee, deptId);
+
+        return new ResponseEntity<>("Employee added successfully to department " + deptId, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/department/{deptId}/{empId}")
-    public void deleteEmployeeFromDepartment(@PathVariable String deptId, @PathVariable String empId) {
-        employeeService.deleteEmployeeFromDepartment(deptId, empId);
+    public ResponseEntity<String> deleteEmployeeFromDepartment(@PathVariable String deptId, @PathVariable String empId) {
+
+        try {
+            employeeService.deleteEmployeeFromDepartment(deptId, empId);
+            return new ResponseEntity<>("Employee with ID " + empId + " deleted successfully", HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Employee with ID " + empId + " not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{empId}")
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable String empId) {
+        try {
+            Employee employee = employeeService.getEmployeeById(empId);  // This should call the service to fetch employee by ID
+            EmployeeDTO employeeDTO = new EmployeeDTO(
+                    employee.getId(),
+                    employee.getName(),
+                    employee.getEmail(),
+                    employee.getPosition(),
+                    employee.getSalary()
+            );
+            return new ResponseEntity<>(employeeDTO, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // If employee not found, return 404
+        }
     }
 
 }
