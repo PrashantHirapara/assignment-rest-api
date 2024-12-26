@@ -24,10 +24,8 @@ public class DepartmentController {
     @GetMapping
     public List<DepartmentDTO> getAllDepartments() {
         return departmentRepository.findAll().stream()
-                .map(dept -> new DepartmentDTO(dept.getId(), dept.getName(), dept.getLocation(),
-                        dept.getEmployees().stream()
-                                .map(emp -> new EmployeeDTO(emp.getId(), emp.getName(), emp.getEmail(), emp.getPosition(), emp.getSalary()))
-                                .toList()))
+                .map(dept -> new DepartmentDTO(dept.getId(), dept.getName(), dept.getLocation(), dept.getEmployees()
+                        .stream().map(emp -> new EmployeeDTO(emp.getId(), emp.getName(), emp.getEmail(), emp.getPosition(), emp.getSalary())).toList()))
                 .toList();
     }
 }
