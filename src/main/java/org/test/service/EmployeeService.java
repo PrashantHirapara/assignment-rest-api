@@ -37,16 +37,12 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void deleteEmployeeFromDepartment(String departmentId, String employeeId) {
-        Department department = departmentRepository.findById(departmentId)
-                .orElseThrow(() -> new RuntimeException("Department not found"));
-
-        Employee employee = department.getEmployees().stream()
-                .filter(emp -> emp.getId().equals(employeeId))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
-
-        employeeRepository.delete(employee);
+    public void deleteEmployee(String employeeId) {
+        if (employeeRepository.existsById(employeeId)) {
+            employeeRepository.deleteById(employeeId);
+        } else {
+            throw new RuntimeException("Employee with id " + employeeId + " not found");
+        }
     }
 
     public List<Employee> getEmployeesInDepartment(String departmentId) {

@@ -54,11 +54,11 @@ public class EmployeeController {
         return new ResponseEntity<>("Employee added successfully to department " + deptId, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/department/{deptId}/{empId}")
-    public ResponseEntity<String> deleteEmployeeFromDepartment(@PathVariable String deptId, @PathVariable String empId) {
+    @DeleteMapping("/{empId}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable String empId) {
 
         try {
-            employeeService.deleteEmployeeFromDepartment(deptId, empId);
+            employeeService.deleteEmployee(empId);
             return new ResponseEntity<>("Employee with ID " + empId + " deleted successfully", HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>("Employee with ID " + empId + " not found", HttpStatus.NOT_FOUND);
