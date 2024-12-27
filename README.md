@@ -9,6 +9,7 @@ This is a powerful backend solution built with **Java**, **Maven**, **Spring Boo
 - **PostgreSQL**: A reliable and scalable relational database used to store employee and department data.
 - **Spring Boot**: An easy-to-use framework that enables the development of production-grade RESTful APIs.
 - **JPA/Hibernate**: Simplifies database interactions with an Object-Relational Mapping (ORM) layer for smooth data handling.
+- **JasperReports**: Integrated for dynamic report generation in PDF format, displaying employee data grouped by departments.
 
 ## Prerequisites
 Before you begin, make sure you have the following software installed:
@@ -48,4 +49,5 @@ curl -X GET http://localhost:8080/api/employees
  - `GET /api/employees/{employeeId}`: Gets details of a specific employee by their `employeeId`.
  - `POST /api/employees/department/{departmentId}`: Adds a new employee to a department.
  - `DELETE /api/employees/department/{departmentId}/{employeeId}`: Deletes an employee from a department.
+ - `GET /api/reports/generateReport`: Generates a PDF report displaying employees grouped by their respective departments.
 
