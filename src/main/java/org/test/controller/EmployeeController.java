@@ -15,7 +15,9 @@ import org.test.dto.EmployeeDTO;
 import org.test.model.Employee;
 import org.test.service.EmployeeService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -56,13 +58,19 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{empId}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable String empId) {
+    public ResponseEntity<Map<String, String>> deleteEmployee(@PathVariable String empId) {
 
         try {
             employeeService.deleteEmployee(empId);
-            return new ResponseEntity<>("Employee with ID " + empId + " deleted successfully", HttpStatus.OK);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Employee with id " + empId + " successfully deleted");
+
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>("Employee with ID " + empId + " not found", HttpStatus.NOT_FOUND);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error deleting employee with id " + empId);
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 
@@ -84,12 +92,14 @@ public class EmployeeController {
     }
 
     @PutMapping("/{empId}")
-    public ResponseEntity<String> updateEmployee(@PathVariable String empId, @RequestBody Employee updatedEmployee) {
+    public ResponseEntity<Map<String, String>> updateEmployee(@PathVariable String empId, @RequestBody Employee updatedEmployee) {
         try {
             employeeService.updateEmployee(empId, updatedEmployee);
-            return ResponseEntity.ok("Employee with id " + empId + " successfully updated");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Employee with id " + empId + " successfully updated");
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 }
