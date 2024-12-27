@@ -48,6 +48,7 @@ curl -X GET http://localhost:8080/api/employees
  - `GET /api/employees/department/{departmentId}`: Gets a list of employees in a specific department.
  - `GET /api/employees/{employeeId}`: Gets details of a specific employee by their `employeeId`.
  - `POST /api/employees/department/{departmentId}`: Adds a new employee to a department.
- - `DELETE /api/employees/department/{departmentId}/{employeeId}`: Deletes an employee from a department.
+ - `DELETE /api/employees/{employeeId}`: Deletes a specific employee based on their unique `employeeId`.
  - `GET /api/reports/generateReport`: Generates a PDF report displaying employees grouped by their respective departments.
+ - `PUT /api/employees/{employeeId}`: Updates the details of an existing employee based on their `employeeId`.
 
